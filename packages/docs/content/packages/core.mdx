@@ -380,10 +380,10 @@ z.string().check(z.email()).parse("user@example.com")
 
 The base class for all errors in Zod is `$ZodError`.
 
-> For performance reasons, `$ZodError` *does not* extend the built-in `Error` class! So using `instanceof Error` will return `false`.
+> For performance reasons, the `$ZodError` base class *does not* extend the built-in `Error` class. The error instances that `parse()`, `safeParse()` and the other entry points throw and return are built from subclasses that do, so `error instanceof Error` is `true` for them.
 
-- The `zod` package implements a subclass of `$ZodError` called `ZodError` with some additional convenience methods.
-- The `zod/mini` sub-package directly uses `$ZodError`
+- The `zod` package uses `ZodError` - a subclass of `$ZodError` with some additional convenience methods - constructed from `ZodRealError`, which extends `Error`.
+- The `zod/mini` sub-package uses `$ZodRealError` instances, which likewise extend `Error`.
 
 ```ts
 export class $ZodError<T = unknown> implements Error {
@@ -457,4 +457,3 @@ Since package managers generally won't install your own `peerDependencies`, you'
   }
 }
 ``` */}
-
